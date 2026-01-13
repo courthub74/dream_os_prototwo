@@ -24,7 +24,12 @@
 }
 
 *{ box-sizing:border-box; }
-html,body{ height:100%; }
+
+html, body {
+  height: auto;
+  min-height: 100dvh; /* or 100vh */
+}
+
 body{
   margin:0;
   font-family: var(--sans);
@@ -488,8 +493,14 @@ button{ font-family: inherit; }
 
 /* Mobile Nav Smaller text */
 @media (max-width: 768px) {
-  body {
-    height: 100vh;
+   /* Set Body height here */
+ html, body {
+    height: auto;
+    min-height: 100dvh;
+  }
+  
+  .app {
+    min-height: 100vh;
   }
   .sidebar {
     position: fixed;
