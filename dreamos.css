@@ -572,3 +572,59 @@ button{ font-family: inherit; }
   font-family: var(--mono);
   opacity: .6;
 }
+
+/* DROPDOWN BUTTON */
+.account-btn{
+  width:100%;
+  padding: 11px 12px;
+  border-radius:14px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.02);
+  color: rgba(255,255,255,0.65);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+  font-family: var(--sans);
+  font-size: 13px;
+  cursor:pointer;
+  transition: 
+    transform .12s ease,
+    border-color .12s ease,
+    background .12s ease,
+    color .12s ease;
+}
+
+.account-avatar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Account button hover effect */
+/* It will adjust to your avatar color */
+.account-btn:hover{
+  transform: translateY(-1px);
+  border-color: rgba(93, 100, 236, 0.45);
+  border-color: white;
+ 
+  color: rgba(255,255,255,0.9);
+}
+
+.account-btn small{
+  font-family: var(--mono);
+  opacity: .6;
+}
+
+/* Account Icon */
+.account-icon{
+ display: flex;
+ /* justify-content: space-between; */
+  /* padding: 2px 4px; */
+  width: 100%;
+}
+.user_avatar{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
