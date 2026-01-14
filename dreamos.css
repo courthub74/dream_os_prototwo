@@ -967,3 +967,110 @@ textarea.notes{
     overflow:auto;
   }
 }
+
+
+/* ===== Modal / Drawer (Mint Details) ===== */
+.modal{
+  position: fixed;
+  inset: 0;
+  display:none;
+  z-index: 999;
+}
+.modal.show{ display:block; }
+
+.modalScrim{
+  position:absolute;
+  inset:0;
+  background: rgba(0,0,0,0.62);
+  backdrop-filter: blur(6px);
+}
+
+.modalCard{
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(0.98);
+  width: min(720px, calc(100% - 24px));
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.10);
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  box-shadow: 0 30px 110px rgba(0,0,0,0.60);
+  overflow:hidden;
+  opacity: 0;
+  transition: opacity .14s ease, transform .14s ease;
+}
+.modal.show .modalCard{
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.modalHead{
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+}
+.modalTitleWrap{ display:flex; flex-direction:column; gap: 4px; min-width:0; }
+.modalKicker{ font-size: 11px; letter-spacing:.16em; text-transform: uppercase; color: var(--muted); }
+.modalTitle{
+  font-size: 16px;
+  font-weight: 950;
+  color: var(--text-2);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.modalBody{ padding: 16px; display:flex; flex-direction:column; gap: 12px; }
+.modalMeta{ font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,0.50); }
+
+.modalGrid{
+  display:grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+@media (max-width: 720px){ .modalGrid{ grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 520px){ .modalGrid{ grid-template-columns: 1fr; } }
+
+.mBox{
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+  border-radius: 16px;
+  padding: 10px;
+}
+.mK{
+  font-size: 11px;
+  letter-spacing:.10em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.42);
+  margin-bottom: 6px;
+}
+.mV{ font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,0.82); }
+
+.mNotes{
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+  border-radius: 16px;
+  padding: 12px;
+}
+.mNoteText{ font-size: 13px; color: var(--muted); line-height: 1.55; }
+
+.modalActions{ display:flex; gap: 10px; margin-top: 2px; }
+.modalActions .btn{ flex: 1; justify-content:center; }
+@media (max-width: 520px){
+  .modalActions{ flex-direction:column; }
+  .modalActions .btn{ width:100%; }
+}
+
+/* Mobile: bottom drawer */
+@media (max-width: 640px){
+  .modalCard{
+    top: auto;
+    bottom: 10px;
+    transform: translateX(-50%) translateY(8px);
+    max-height: calc(100dvh - 20px);
+    overflow:auto;
+  }
+  .modal.show .modalCard{
+    transform: translateX(-50%) translateY(0);
+  }
+}

@@ -471,154 +471,8 @@
         </div>
       </div>
 
-      <div class="content">
-
-        <!-- CONNECTORS -->
-        <!-- RIGHT: Mint Summary (sticky) + Queue -->
-        <div class="right-stack">
-
-        <!-- Sticky Mint Summary -->
-        <section class="panel stickySummary">
-            <div class="head">
-            <h2>Mint Summary</h2>
-            <div class="pill" id="readyPill">blocked</div>
-            </div>
-
-            <div class="body summaryBody">
-            <div class="summaryCard">
-                <div class="sumRow">
-                <div class="sumK">Marketplace</div>
-                <div class="sumV" id="sumMarket">xrpcafe</div>
-                </div>
-                <div class="sumRow">
-                <div class="sumK">Chain</div>
-                <div class="sumV" id="sumChain">XRPL</div>
-                </div>
-                <div class="sumRow">
-                <div class="sumK">Artwork</div>
-                <div class="sumV" id="sumArtwork">Dream Agent Distilleries</div>
-                </div>
-                <div class="sumRow">
-                <div class="sumK">Collection</div>
-                <div class="sumV" id="sumCollection">None</div>
-                </div>
-
-                <div class="sumDivider"></div>
-
-                <div class="sumRow">
-                <div class="sumK">Edition</div>
-                <div class="sumV" id="sumEdition">1</div>
-                </div>
-                <div class="sumRow">
-                <div class="sumK">Royalties</div>
-                <div class="sumV" id="sumRoyalties">10%</div>
-                </div>
-                <div class="sumRow">
-                <div class="sumK">Sale type</div>
-                <div class="sumV" id="sumSaleType">fixed</div>
-                </div>
-                <div class="sumRow">
-                <div class="sumK">Price</div>
-                <div class="sumV" id="sumPrice">—</div>
-                </div>
-            </div>
-
-            <div class="fees">
-                <div class="feesTop">
-                <div class="feesTitle">Estimated fees</div>
-                <div class="badgeMini" id="feesMode">placeholder</div>
-                </div>
-                <div class="feesGrid">
-                <div class="feeBox">
-                    <div class="feeK">Network</div>
-                    <div class="feeV" id="feeNetwork">—</div>
-                </div>
-                <div class="feeBox">
-                    <div class="feeK">Marketplace</div>
-                    <div class="feeV" id="feeMarket">—</div>
-                </div>
-                </div>
-                <div class="feesNote" id="feesNote">
-                Connect a marketplace and run “Validate” to estimate fees.
-                </div>
-            </div>
-
-            <div class="validateActions">
-                <button class="btn primary" type="button" onclick="validateMint()">
-                <span class="dot"></span>Validate
-                </button>
-                <button class="btn" type="button" onclick="alert('Hook: preview listing payload');">
-                Preview
-                </button>
-            </div>
-
-            <div class="checks" id="checks">
-                <div class="checkItem bad">• Marketplace connected</div>
-                <div class="checkItem bad">• Price present</div>
-                <div class="checkItem ok">• Artwork selected</div>
-                <div class="checkItem ok">• Edition valid</div>
-            </div>
-            </div>
-        </section>
-
-        <!-- Queue / activity -->
-        <section class="panel">
-            <div class="head">
-            <h2>Queue</h2>
-            <div class="pill">Live ops</div>
-            </div>
-
-            <div class="body">
-            <div class="queue" id="queue">
-                <div class="qItem">
-                <div class="qLeft">
-                    <div class="qTitle">The Soap Wars</div>
-                    <div class="qMeta">xrpcafe · edition 1 · fixed · 125 XRP</div>
-                </div>
-                <div class="qRight">
-                    <div class="statusPill on">ready</div>
-                    <button class="iconBtn" type="button" onclick="openMintModal(this)" aria-label="Open mint details">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M9 18l6-6-6-6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    </button>
-                </div>
-                </div>
-
-                <div class="qItem">
-                <div class="qLeft">
-                    <div class="qTitle">Dream Agent Distilleries</div>
-                    <div class="qMeta">opensea · edition 1 · fixed · 0.08 ETH</div>
-                </div>
-                <div class="qRight">
-                    <div class="statusPill">draft</div>
-                    <button class="iconBtn" type="button" onclick="openMintModal(this)" aria-label="Open mint details">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M9 18l6-6-6-6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    </button>
-                </div>
-                </div>
-
-                <div class="qItem">
-                <div class="qLeft">
-                    <div class="qTitle">Temple of Openings</div>
-                    <div class="qMeta">xrpcafe · edition 10 · open edition</div>
-                </div>
-                <div class="qRight">
-                    <div class="statusPill soon">pending</div>
-                    <button class="iconBtn" type="button" onclick="openMintModal(this)" aria-label="Open mint details">
-                    <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M9 18l6-6-6-6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    </button>
-                </div>
-                </div>
-
-            </div>
-            </div>
-        </section>
-
+        <div class="content">
+            <!-- placeholder for now -->
         </div>
 
 
@@ -822,6 +676,53 @@
     </main>
   </div>
 
+  <!-- Mint Details Modal / Drawer -->
+<div class="modal" id="mintModal" aria-hidden="true">
+  <div class="modalScrim" onclick="closeMintModal()"></div>
+
+  <div class="modalCard" role="dialog" aria-modal="true" aria-label="Mint details">
+    <div class="modalHead">
+      <div class="modalTitleWrap">
+        <div class="modalKicker">Mint details</div>
+        <div class="modalTitle" id="mTitle">—</div>
+      </div>
+
+      <button class="iconBtn" type="button" onclick="closeMintModal()" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M6 6l12 12M18 6L6 18" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="modalBody">
+      <div class="modalMeta" id="mMeta">—</div>
+
+      <div class="modalGrid">
+        <div class="mBox"><div class="mK">Status</div><div class="mV" id="mStatus">—</div></div>
+        <div class="mBox"><div class="mK">Marketplace</div><div class="mV" id="mMarket">—</div></div>
+        <div class="mBox"><div class="mK">Chain</div><div class="mV" id="mChain">—</div></div>
+        <div class="mBox"><div class="mK">Edition</div><div class="mV" id="mEdition">—</div></div>
+        <div class="mBox"><div class="mK">Royalties</div><div class="mV" id="mRoyalties">—</div></div>
+        <div class="mBox"><div class="mK">Price</div><div class="mV" id="mPrice">—</div></div>
+      </div>
+
+      <div class="mNotes">
+        <div class="mK">Internal notes</div>
+        <div class="mNoteText" id="mNotes">—</div>
+      </div>
+
+      <div class="modalActions">
+        <button class="btn primary" type="button" onclick="alert('Hook: run mint now');">
+          <span class="dot"></span>Run mint
+        </button>
+        <button class="btn" type="button" onclick="alert('Hook: edit queued item');">Edit</button>
+        <button class="btn" type="button" onclick="alert('Hook: remove from queue');">Remove</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
   <script>
     // Sidebar toggle (matches your burger/scrim pattern)
     function toggleSidebar(force){
@@ -877,26 +778,42 @@
     }
 
     function addQueueItem(p){
-      const queue = document.getElementById('queue');
+  const queue = document.getElementById('queue');
 
-      const item = document.createElement('div');
-      item.className = 'qItem';
-      item.innerHTML = `
-        <div class="qLeft">
-          <div class="qTitle">${escapeHtml(p.artwork)}</div>
-          <div class="qMeta">${escapeHtml(p.marketplace)} · edition ${escapeHtml(String(p.edition))} · ${escapeHtml(p.saleType)} · ${escapeHtml(p.price || '—')}</div>
-        </div>
-        <div class="qRight">
-          <div class="statusPill">draft</div>
-          <button class="iconBtn" type="button" aria-label="Open">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M9 18l6-6-6-6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-      `;
-      queue.prepend(item);
-    }
+  const chain = chainFor(p.marketplace);
+  const cleanTitle = (p.artwork || '—').replace(/\s*\(Draft\)\s*/i,'').trim();
+
+  const item = document.createElement('div');
+  item.className = 'qItem';
+
+  // store details for the modal
+  item.dataset.title = cleanTitle;
+  item.dataset.meta = `${p.marketplace} · edition ${p.edition} · ${p.saleType} · ${p.price || '—'}`;
+  item.dataset.status = 'draft';
+  item.dataset.market = p.marketplace;
+  item.dataset.chain = chain;
+  item.dataset.edition = String(p.edition || '—');
+  item.dataset.royalties = (p.royalties !== '' ? `${p.royalties}%` : '—');
+  item.dataset.price = p.price || '—';
+  item.dataset.notes = p.notes || '—';
+
+  item.innerHTML = `
+    <div class="qLeft">
+      <div class="qTitle">${escapeHtml(cleanTitle)}</div>
+      <div class="qMeta">${escapeHtml(item.dataset.meta)}</div>
+    </div>
+    <div class="qRight">
+      <div class="statusPill">draft</div>
+      <button class="iconBtn" type="button" onclick="openMintModal(this)" aria-label="Open mint details">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M9 18l6-6-6-6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  `;
+  queue.prepend(item);
+}
+
 
     function escapeHtml(str){
       return String(str)
