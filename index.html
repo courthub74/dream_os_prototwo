@@ -7,15 +7,15 @@
   <link rel="stylesheet" href="dreamos.css">
   <style>
     /* Login-specific layout */
-    body{ display:flex; align-items:center; justify-content:center; padding:18px; overflow:hidden; }
-
-    .wrap{
-      width: min(980px, 100%);
-      display:grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 16px;
-      align-items:stretch;
+    /* body{ display:flex; align-items:center; justify-content:center; padding:18px; overflow:hidden; } */
+    body{
+      min-height: 100dvh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
     }
+
+
     @media (max-width: 980px){ .wrap{ grid-template-columns: 1fr; } }
 
     .loginPanel{
@@ -51,7 +51,13 @@
     .sig{ color: rgba(255,255,255,0.40); font-family: var(--mono); font-size: 12px; line-height: 1.5; }
 
     .right{ padding: 18px; display:flex; flex-direction:column; gap: 12px; justify-content:center; }
-    .headLocal{ padding: 16px 16px 10px 16px; display:flex; flex-direction:column; gap: 6px; }
+    /* .headLocal{ padding: 16px 16px 10px 16px; display:flex; flex-direction:column; gap: 6px; } */
+    /* Align Login header block with everything else */
+    .headLocal{
+      padding: 0;          /* remove the extra inset */
+      margin: 0 0 2px 0;   /* optional: tiny breathing room */
+    }
+
     .headLocal .t{ font-weight: 900; color: var(--text-2); font-size: 14px; letter-spacing:.02em; }
     .headLocal .d{ color: var(--muted); font-size: 12px; line-height: 1.45; }
 
@@ -81,59 +87,105 @@
     }
     .mini a{ color: rgba(180,207,106,0.92); text-decoration: underline; text-underline-offset: 4px; }
     .btn{ width:100%; justify-content:center; }
+
+    /* Side-by-side actions */
+.login-actions{
+  margin-top: 20px;
+  display:flex;
+  gap: 10px;
+}
+
+.login-actions .btn{
+  flex: 1;
+  width: auto;              /* overrides your .btn{ width:100% } */
+  justify-content:center;
+}
+
+/* Make the card feel less tight */
+.wrap.single{
+  width: min(520px, 100%);
+  padding: 18px;              /* keeps it off screen edges */
+}
+
+.onePanel{
+  width: 100%;
+  min-height: 560px;          /* gives the card presence */
+}
+
+
+/* Mobile: stack again */
+@media (max-width: 520px){
+  .login-actions{
+    flex-direction: column;
+  }
+  .login-actions .btn{
+    width: 100%;
+  }
+}
+
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <section class="loginPanel left">
-      <div class="brandBlock">
-        <div class="orbBig"></div>
-        <div class="brandText2">
-          <strong>Dream OS</strong>
-          <span>Internal studio console</span>
+  <!-- <div class="wrap"> -->
+    <div class="wrap single">
+      <section class="loginPanel onePanel">
+        <div class="topBrand">
+          <div class="brandBlock">
+            <div class="orbBig"></div>
+            <div class="brandText2">
+              <strong>Dream OS</strong>
+              <span>Internal studio console</span>
+            </div>
+          </div>
+
+          <div class="heroMini">
+            <!-- <div class="kicker">Access portal</div> -->
+            
+            <div class="sig">Draft, archive, distribute, and mint content with clean intent.</div>
+            <!-- <div class="sig">Build: v0.1 · Authorship overlay is non-destructive · Mint remains clean by default</div> -->
+          </div>
         </div>
-      </div>
 
-      <div class="hero">
-        <div class="kicker">Access portal</div>
-        <h1>Enter the console.</h1>
-        <p class="sub">
-          Draft, archive, distribute, and mint with clean intent.
-          Your identity assets stay yours. Your workflow stays fast.
-        </p>
-      </div>
+        <div class="formBlock">
+          <div class="headLocal">
+            <div class="t">Login</div>
+            <div class="d">Access Dream OS with your account email.</div>
+          </div>
 
-      <div class="sig">Build: v0.1 · Authorship overlay is non-destructive · Mint remains clean by default</div>
-    </section>
+          <div class="field">
+            <div class="label">Email</div>
+            <input type="email" placeholder="you@studio.com" />
+          </div>
 
-    <section class="loginPanel right">
-      <div class="headLocal">
-        <div class="t">Login</div>
-        <div class="d">Use your account email + PIN (or password) to access Dream OS.</div>
-      </div>
+          <div class="field">
+            <div class="label">Password</div>
+            <input type="password" placeholder="••••••••" />
+          </div>
 
-      <div class="field">
-        <div class="label">Email</div>
-        <input type="email" placeholder="you@studio.com" />
-      </div>
+          <div class="mini">
+            <label class="remember">
+              <input type="checkbox" id="rememberMe" />
+              <span class="box" aria-hidden="true"></span>
+              <span class="rememberText">Remember me</span>
+            </label>
 
-      <div class="field">
-        <div class="label">PIN / Password</div>
-        <input type="password" placeholder="••••••••" />
-      </div>
+            <a href="#" onclick="alert('Hook to reset flow.'); return false;">Forgot?</a>
+          </div>
 
-      <div class="mini">
-        <span>Remember me</span>
-        <a href="#" onclick="alert('Hook to reset flow.'); return false;">Forgot?</a>
-      </div>
 
-      <button class="btn primary" onclick="alert('Hook to auth. Then route to dashboard.');">
-        <span class="dot"></span>Sign In
-      </button>
+          <div class="login-actions">
+            <button class="btn primary" onclick="alert('Hook to auth. Then route to dashboard.');">
+              <span class="dot"></span>Sign In
+            </button>
 
-      <button class="btn" onclick="window.location.href='dashboard.html';">Continue in Demo Mode</button>
-    </section>
-  </div>
+            <button class="btn" onclick="window.location.href='dashboard.html';">
+              Continue in Demo Mode
+            </button>
+          </div>
+
+        </div>
+      </section>
+    </div>
 </body>
 </html>

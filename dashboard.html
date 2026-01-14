@@ -13,6 +13,7 @@
     @media (max-width: 520px){ .tiles{ grid-template-columns: 1fr; } }
 
     .kpis{ display: flex; flex-direction: row; gap: 12px; }
+    @media (max-width: 520px){ .kpis{ flex-direction: row; } }
     .kpis .panel.kpi { flex: 1; }
 
     .tile{
@@ -93,12 +94,12 @@
        </div>
 
       <!-- SIDEBAR -->
-      <!-- <div class="sidebar-footer">
+      <div class="sidebar-footer">
         <button class="logout-btn" onclick="window.location.href='index.html'">
         <span>Logout</span>
         <small>⇥</small>
         </button>
-      </div> -->
+      </div>
 
     </aside>
 
@@ -116,7 +117,7 @@
 
         <div class="topRight">
           <button class="btn" onclick="alert('Hook to search modal.');">Search</button>
-          <a class="btn primary" href="new_artwork.html"><span class="dot"></span>New Artwork</a>
+          <a class="btn primary" href="create.html"><span class="dot"></span>New Artwork</a>
         </div>
       </header>
 
@@ -182,7 +183,7 @@
             </div>
             <h2>No works yet</h2>
             <p>Begin your first creation. Every masterpiece starts with a single prompt.</p>
-            <button class="cta" type="button" onclick="window.location.href='new_artwork.html'">
+            <button class="cta" type="button" onclick="window.location.href='create.html'">
               Create First Work <span class="arrow">↗</span>
             </button>
           </div>
