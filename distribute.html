@@ -269,6 +269,151 @@
       .mintActions .btn{ width:100%; }
     }
 
+    /* ===== Review (collapsible Mint Summary, pre-queue) ===== */
+    .review{
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.02);
+    border-radius: 18px;
+    overflow:hidden;
+    }
+
+    .reviewToggle{
+    width:100%;
+    padding: 12px 12px;
+    border:0;
+    background: transparent;
+    color: inherit;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 12px;
+    cursor:pointer;
+    }
+
+    .reviewLeft{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    min-width:0;
+    }
+    .reviewTitle{
+    font-weight: 950;
+    color: var(--text-2);
+    font-size: 13px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    }
+    .reviewRight{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    flex: 0 0 auto;
+    }
+    .reviewHint{
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.45);
+    white-space:nowrap;
+    }
+    .chev{
+    font-family: var(--mono);
+    opacity: .7;
+    transition: transform .12s ease, opacity .12s ease;
+    }
+    .review.open .chev{
+    transform: rotate(180deg);
+    opacity: 1;
+    }
+
+    .reviewBody{
+    padding: 12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display:flex;
+    flex-direction:column;
+    gap: 12px;
+    }
+
+    /* Reuse-able summary styles (same as earlier) */
+    .summaryCard{
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.02);
+    border-radius: 18px;
+    padding: 12px;
+    display:flex;
+    flex-direction:column;
+    gap: 10px;
+    box-shadow: 0 18px 60px rgba(0,0,0,0.25);
+    }
+    .sumRow{ display:flex; align-items:center; justify-content:space-between; gap: 12px; }
+    .sumK{
+    font-size: 11px;
+    letter-spacing:.10em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.42);
+    }
+    .sumV{
+    font-family: var(--mono);
+    font-size: 12px;
+    color: rgba(255,255,255,0.82);
+    text-align:right;
+    max-width: 58%;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    }
+    .sumDivider{ height: 1px; background: rgba(255,255,255,0.07); margin: 2px 0; }
+
+    /* Checks list (reused) */
+    .checks{
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.02);
+    border-radius: 18px;
+    padding: 12px;
+    font-size: 12px;
+    line-height: 1.65;
+    }
+    .checkItem{
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    }
+    .checkItem.ok{ color: rgba(180,207,106,0.86); }
+    .checkItem.bad{ color: rgba(255,255,255,0.40); }
+
+    /* Fees + validate styles (if you don't already have them from earlier) */
+    .fees{
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.02);
+    border-radius: 18px;
+    padding: 12px;
+    }
+    .feesTop{ display:flex; align-items:center; justify-content:space-between; gap: 10px; margin-bottom: 10px; }
+    .feesTitle{ font-weight: 950; color: var(--text-2); font-size: 13px; }
+    .badgeMini{
+    font-family: var(--mono);
+    font-size: 11px;
+    color: rgba(255,255,255,0.55);
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.02);
+    padding: 6px 10px;
+    border-radius: 999px;
+    }
+    .feesGrid{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 520px){ .feesGrid{ grid-template-columns: 1fr; } }
+    .feeBox{ border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); border-radius: 16px; padding: 10px; }
+    .feeK{ font-size: 11px; letter-spacing:.10em; text-transform: uppercase; color: rgba(255,255,255,0.42); margin-bottom: 6px; }
+    .feeV{ font-family: var(--mono); font-size: 12px; color: rgba(255,255,255,0.82); }
+    .feesNote{ margin-top: 10px; color: var(--muted); font-size: 12px; line-height: 1.5; }
+
+    .validateActions{ display:flex; gap: 10px; }
+    .validateActions .btn{ flex: 1; justify-content:center; }
+    @media (max-width: 520px){
+    .validateActions{ flex-direction:column; }
+    .validateActions .btn{ width:100%; }
+    }
+
+
   </style>
 </head>
 
@@ -329,110 +474,153 @@
       <div class="content">
 
         <!-- CONNECTORS -->
+        <!-- RIGHT: Mint Summary (sticky) + Queue -->
+        <div class="right-stack">
+
+        <!-- Sticky Mint Summary -->
+        <section class="panel stickySummary">
+            <div class="head">
+            <h2>Mint Summary</h2>
+            <div class="pill" id="readyPill">blocked</div>
+            </div>
+
+            <div class="body summaryBody">
+            <div class="summaryCard">
+                <div class="sumRow">
+                <div class="sumK">Marketplace</div>
+                <div class="sumV" id="sumMarket">xrpcafe</div>
+                </div>
+                <div class="sumRow">
+                <div class="sumK">Chain</div>
+                <div class="sumV" id="sumChain">XRPL</div>
+                </div>
+                <div class="sumRow">
+                <div class="sumK">Artwork</div>
+                <div class="sumV" id="sumArtwork">Dream Agent Distilleries</div>
+                </div>
+                <div class="sumRow">
+                <div class="sumK">Collection</div>
+                <div class="sumV" id="sumCollection">None</div>
+                </div>
+
+                <div class="sumDivider"></div>
+
+                <div class="sumRow">
+                <div class="sumK">Edition</div>
+                <div class="sumV" id="sumEdition">1</div>
+                </div>
+                <div class="sumRow">
+                <div class="sumK">Royalties</div>
+                <div class="sumV" id="sumRoyalties">10%</div>
+                </div>
+                <div class="sumRow">
+                <div class="sumK">Sale type</div>
+                <div class="sumV" id="sumSaleType">fixed</div>
+                </div>
+                <div class="sumRow">
+                <div class="sumK">Price</div>
+                <div class="sumV" id="sumPrice">—</div>
+                </div>
+            </div>
+
+            <div class="fees">
+                <div class="feesTop">
+                <div class="feesTitle">Estimated fees</div>
+                <div class="badgeMini" id="feesMode">placeholder</div>
+                </div>
+                <div class="feesGrid">
+                <div class="feeBox">
+                    <div class="feeK">Network</div>
+                    <div class="feeV" id="feeNetwork">—</div>
+                </div>
+                <div class="feeBox">
+                    <div class="feeK">Marketplace</div>
+                    <div class="feeV" id="feeMarket">—</div>
+                </div>
+                </div>
+                <div class="feesNote" id="feesNote">
+                Connect a marketplace and run “Validate” to estimate fees.
+                </div>
+            </div>
+
+            <div class="validateActions">
+                <button class="btn primary" type="button" onclick="validateMint()">
+                <span class="dot"></span>Validate
+                </button>
+                <button class="btn" type="button" onclick="alert('Hook: preview listing payload');">
+                Preview
+                </button>
+            </div>
+
+            <div class="checks" id="checks">
+                <div class="checkItem bad">• Marketplace connected</div>
+                <div class="checkItem bad">• Price present</div>
+                <div class="checkItem ok">• Artwork selected</div>
+                <div class="checkItem ok">• Edition valid</div>
+            </div>
+            </div>
+        </section>
+
+        <!-- Queue / activity -->
         <section class="panel">
-          <div class="head">
-            <h2>Marketplaces</h2>
-            <div class="pill">Connect once, ship everywhere</div>
-          </div>
+            <div class="head">
+            <h2>Queue</h2>
+            <div class="pill">Live ops</div>
+            </div>
 
-          <div class="body">
-            <div class="connectors">
+            <div class="body">
+            <div class="queue" id="queue">
+                <div class="qItem">
+                <div class="qLeft">
+                    <div class="qTitle">The Soap Wars</div>
+                    <div class="qMeta">xrpcafe · edition 1 · fixed · 125 XRP</div>
+                </div>
+                <div class="qRight">
+                    <div class="statusPill on">ready</div>
+                    <button class="iconBtn" type="button" onclick="openMintModal(this)" aria-label="Open mint details">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M9 18l6-6-6-6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    </button>
+                </div>
+                </div>
 
-              <!-- XRP Cafe -->
-              <div class="connector" data-market="xrpcafe">
-                <div class="cTop">
-                  <div class="cBrand">
-                    <div class="cIcon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M7 7h10M7 12h10M7 17h10" stroke-width="1.8" stroke-linecap="round"/>
-                      </svg>
-                    </div>
-                    <div class="cName">
-                      <strong>XRP Café</strong>
-                      <span>XRPL mint + listings</span>
-                    </div>
-                  </div>
-                  <div class="statusPill on" id="st-xrpcafe">connected</div>
+                <div class="qItem">
+                <div class="qLeft">
+                    <div class="qTitle">Dream Agent Distilleries</div>
+                    <div class="qMeta">opensea · edition 1 · fixed · 0.08 ETH</div>
                 </div>
-                <div class="cBody">Primary rail for Dream Agent drops. Supports collections and editions.</div>
-                <div class="cActions">
-                  <button class="btn" type="button" onclick="disconnect('xrpcafe')">Disconnect</button>
-                  <button class="btn primary" type="button" onclick="manage('xrpcafe')"><span class="dot"></span>Manage</button>
+                <div class="qRight">
+                    <div class="statusPill">draft</div>
+                    <button class="iconBtn" type="button" onclick="openMintModal(this)" aria-label="Open mint details">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M9 18l6-6-6-6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    </button>
                 </div>
-              </div>
+                </div>
 
-              <!-- OpenSea -->
-              <div class="connector" data-market="opensea">
-                <div class="cTop">
-                  <div class="cBrand">
-                    <div class="cIcon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M12 3l7 7-7 11-7-11 7-7Z" stroke-width="1.8" stroke-linejoin="round"/>
-                      </svg>
-                    </div>
-                    <div class="cName">
-                      <strong>OpenSea</strong>
-                      <span>Ethereum / Polygon</span>
-                    </div>
-                  </div>
-                  <div class="statusPill" id="st-opensea">not connected</div>
+                <div class="qItem">
+                <div class="qLeft">
+                    <div class="qTitle">Temple of Openings</div>
+                    <div class="qMeta">xrpcafe · edition 10 · open edition</div>
                 </div>
-                <div class="cBody">Connect a wallet to publish on EVM chains with optional royalties.</div>
-                <div class="cActions">
-                  <button class="btn primary" type="button" onclick="connect('opensea')"><span class="dot"></span>Connect</button>
-                  <button class="btn" type="button" onclick="alert('Docs link placeholder');">Docs</button>
+                <div class="qRight">
+                    <div class="statusPill soon">pending</div>
+                    <button class="iconBtn" type="button" onclick="openMintModal(this)" aria-label="Open mint details">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M9 18l6-6-6-6" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    </button>
                 </div>
-              </div>
-
-              <!-- Manifold -->
-              <div class="connector" data-market="manifold">
-                <div class="cTop">
-                  <div class="cBrand">
-                    <div class="cIcon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M6 18V6l6 6 6-6v12" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                      </svg>
-                    </div>
-                    <div class="cName">
-                      <strong>Manifold</strong>
-                      <span>Contract-based drops</span>
-                    </div>
-                  </div>
-                  <div class="statusPill soon" id="st-manifold">coming soon</div>
                 </div>
-                <div class="cBody">For custom contracts, claim pages, and drop mechanics. (Stub UI)</div>
-                <div class="cActions">
-                  <button class="btn" type="button" onclick="alert('Coming soon');">Notify</button>
-                  <button class="btn" type="button" onclick="alert('Coming soon');">Learn</button>
-                </div>
-              </div>
-
-              <!-- SuperRare -->
-              <div class="connector" data-market="superrare">
-                <div class="cTop">
-                  <div class="cBrand">
-                    <div class="cIcon" aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none">
-                        <path d="M12 21s-7-4.5-7-11a4 4 0 0 1 7-2 4 4 0 0 1 7 2c0 6.5-7 11-7 11Z" stroke-width="1.8" stroke-linejoin="round"/>
-                      </svg>
-                    </div>
-                    <div class="cName">
-                      <strong>SuperRare</strong>
-                      <span>1/1 curation</span>
-                    </div>
-                  </div>
-                  <div class="statusPill soon" id="st-superrare">coming soon</div>
-                </div>
-                <div class="cBody">Curation-first pipeline. Keep drafts here until approved.</div>
-                <div class="cActions">
-                  <button class="btn" type="button" onclick="alert('Coming soon');">Notify</button>
-                  <button class="btn" type="button" onclick="alert('Coming soon');">Learn</button>
-                </div>
-              </div>
 
             </div>
-          </div>
+            </div>
         </section>
+
+        </div>
+
 
         <!-- MINT + QUEUE -->
         <div class="dist-grid">
@@ -503,6 +691,64 @@
                 <div class="label">Notes <span class="hint">Internal</span></div>
                 <textarea id="notes" placeholder="Collector text locked. Cover verified. Ready to mint."></textarea>
               </div>
+
+              <!-- Review / Mint Summary (collapsible, pre-queue) -->
+                <div class="review">
+                <button class="reviewToggle" type="button" id="reviewToggle" aria-expanded="false" onclick="toggleReview()">
+                    <div class="reviewLeft">
+                    <span class="pill" id="reviewState">blocked</span>
+                    <div class="reviewTitle">Review mint summary</div>
+                    </div>
+                    <div class="reviewRight">
+                    <span class="reviewHint" id="reviewHint">Fill required fields to validate</span>
+                    <span class="chev" id="reviewChev">▾</span>
+                    </div>
+                </button>
+
+                <div class="reviewBody" id="reviewBody" hidden>
+                    <div class="summaryCard">
+                    <div class="sumRow"><div class="sumK">Marketplace</div><div class="sumV" id="rMarket">—</div></div>
+                    <div class="sumRow"><div class="sumK">Chain</div><div class="sumV" id="rChain">—</div></div>
+                    <div class="sumRow"><div class="sumK">Artwork</div><div class="sumV" id="rArtwork">—</div></div>
+                    <div class="sumRow"><div class="sumK">Collection</div><div class="sumV" id="rCollection">None</div></div>
+
+                    <div class="sumDivider"></div>
+
+                    <div class="sumRow"><div class="sumK">Edition</div><div class="sumV" id="rEdition">—</div></div>
+                    <div class="sumRow"><div class="sumK">Royalties</div><div class="sumV" id="rRoyalties">—</div></div>
+                    <div class="sumRow"><div class="sumK">Sale type</div><div class="sumV" id="rSaleType">—</div></div>
+                    <div class="sumRow"><div class="sumK">Price</div><div class="sumV" id="rPrice">—</div></div>
+                    </div>
+
+                    <div class="checks" id="reviewChecks"></div>
+
+                    <div class="fees">
+                    <div class="feesTop">
+                        <div class="feesTitle">Estimated fees</div>
+                        <div class="badgeMini" id="rFeesMode">placeholder</div>
+                    </div>
+                    <div class="feesGrid">
+                        <div class="feeBox">
+                        <div class="feeK">Network</div>
+                        <div class="feeV" id="rFeeNetwork">—</div>
+                        </div>
+                        <div class="feeBox">
+                        <div class="feeK">Marketplace</div>
+                        <div class="feeV" id="rFeeMarket">—</div>
+                        </div>
+                    </div>
+                    <div class="feesNote" id="rFeesNote">Run “Validate” to estimate fees.</div>
+                    </div>
+
+                    <div class="validateActions">
+                    <button class="btn primary" type="button" onclick="validateReview()">
+                        <span class="dot"></span>Validate
+                    </button>
+                    <button class="btn" type="button" onclick="toggleReview(true)">Close</button>
+                    </div>
+                </div>
+                </div>
+
 
               <div class="mintActions">
                 <button class="btn primary" type="button" onclick="queueMint()">
@@ -660,6 +906,263 @@
         .replaceAll('"','&quot;')
         .replaceAll("'","&#039;");
     }
+    // Map marketplaces to chain labels (UI-only)
+function chainFor(market){
+  if (market === 'xrpcafe') return 'XRPL';
+  if (market === 'opensea') return 'EVM';
+  return '—';
+}
+
+function isMarketConnected(market){
+  const el = document.getElementById('st-' + market);
+  if (!el) return false;
+  return el.classList.contains('on'); // your "connected" class
+}
+
+function syncSummary(){
+  const p = readForm();
+
+  // summary fields
+  document.getElementById('sumMarket').textContent = p.marketplace;
+  document.getElementById('sumChain').textContent = chainFor(p.marketplace);
+
+  // artwork: strip "(Draft)" for clean summary
+  const cleanArtwork = (p.artwork || '').replace(/\s*\(Draft\)\s*/i,'').trim();
+  document.getElementById('sumArtwork').textContent = cleanArtwork || '—';
+
+  document.getElementById('sumCollection').textContent = p.collection || 'None';
+  document.getElementById('sumEdition').textContent = p.edition || '—';
+  document.getElementById('sumRoyalties').textContent = (p.royalties !== '' ? `${p.royalties}%` : '—');
+  document.getElementById('sumSaleType').textContent = p.saleType || '—';
+  document.getElementById('sumPrice').textContent = p.price && p.price.trim() ? p.price.trim() : '—';
+
+  // quick readiness (soft, not blocking)
+  const checks = computeChecks(p);
+  renderChecks(checks);
+
+  const readyPill = document.getElementById('readyPill');
+  if (checks.ready){
+    readyPill.textContent = 'ready';
+    readyPill.classList.add('ready');
+  } else {
+    readyPill.textContent = 'blocked';
+    readyPill.classList.remove('ready');
+  }
+}
+
+function computeChecks(p){
+  const connected = isMarketConnected(p.marketplace);
+  const priceOk = !!(p.price && p.price.trim().length > 0);
+  const artworkOk = !!(p.artwork && p.artwork.trim().length > 0);
+  const editionNum = Number(p.edition);
+  const editionOk = Number.isFinite(editionNum) && editionNum >= 1;
+
+  // "Ready" definition can be as strict as you want
+  const ready = connected && artworkOk && editionOk && (p.saleType !== 'fixed' ? true : priceOk);
+
+  return { connected, priceOk, artworkOk, editionOk, ready };
+}
+
+function renderChecks(c){
+  const wrap = document.getElementById('checks');
+  wrap.innerHTML = `
+    <div class="checkItem ${c.connected ? 'ok' : 'bad'}">• Marketplace connected</div>
+    <div class="checkItem ${c.priceOk ? 'ok' : 'bad'}">• Price present</div>
+    <div class="checkItem ${c.artworkOk ? 'ok' : 'bad'}">• Artwork selected</div>
+    <div class="checkItem ${c.editionOk ? 'ok' : 'bad'}">• Edition valid</div>
+  `;
+}
+
+// Validate button: fake fee estimates until backend/web3 hooks exist
+function validateMint(){
+  const p = readForm();
+  const connected = isMarketConnected(p.marketplace);
+
+  document.getElementById('feesMode').textContent = connected ? 'estimate' : 'placeholder';
+
+  if (!connected){
+    document.getElementById('feeNetwork').textContent = '—';
+    document.getElementById('feeMarket').textContent = '—';
+    document.getElementById('feesNote').textContent = 'Connect the selected marketplace to estimate fees.';
+    syncSummary();
+    return;
+  }
+
+  // Placeholder estimates (swap later with real calls)
+  const chain = chainFor(p.marketplace);
+  document.getElementById('feeNetwork').textContent = chain === 'XRPL' ? '~0.000012 XRP' : '~$4–$18 gas';
+  document.getElementById('feeMarket').textContent = p.marketplace === 'xrpcafe' ? 'Marketplace fee varies' : 'Marketplace fee varies';
+  document.getElementById('feesNote').textContent = 'Estimates are placeholders. Replace with real network + marketplace quote endpoints.';
+
+  syncSummary();
+}
+
+// Wire sync to inputs
+['artwork','collection','market','edition','royalties','price','saleType','notes'].forEach(id=>{
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', syncSummary);
+  el.addEventListener('change', syncSummary);
+});
+
+// Make connect/disconnect update summary immediately
+const _connect = connect;
+connect = function(m){ _connect(m); syncSummary(); }
+const _disconnect = disconnect;
+disconnect = function(m){ _disconnect(m); syncSummary(); }
+
+// Initial
+syncSummary();
+
+function chainFor(market){
+  if (market === 'xrpcafe') return 'XRPL';
+  if (market === 'opensea') return 'EVM';
+  return '—';
+}
+function isMarketConnected(market){
+  const el = document.getElementById('st-' + market);
+  return !!(el && el.classList.contains('on'));
+}
+
+function computeChecks(p){
+  const connected = isMarketConnected(p.marketplace);
+  const priceOk = !!(p.price && p.price.trim().length > 0);
+  const artworkOk = !!(p.artwork && p.artwork.trim().length > 0);
+  const editionNum = Number(p.edition);
+  const editionOk = Number.isFinite(editionNum) && editionNum >= 1;
+
+  const fixedNeedsPrice = (p.saleType === 'fixed');
+  const ready = connected && artworkOk && editionOk && (!fixedNeedsPrice || priceOk);
+
+  return { connected, priceOk, artworkOk, editionOk, ready };
+}
+
+function renderChecks(targetId, c){
+  const wrap = document.getElementById(targetId);
+  wrap.innerHTML = `
+    <div class="checkItem ${c.connected ? 'ok' : 'bad'}">• Marketplace connected</div>
+    <div class="checkItem ${c.priceOk ? 'ok' : 'bad'}">• Price present</div>
+    <div class="checkItem ${c.artworkOk ? 'ok' : 'bad'}">• Artwork selected</div>
+    <div class="checkItem ${c.editionOk ? 'ok' : 'bad'}">• Edition valid</div>
+  `;
+}
+
+function syncReview(){
+  const p = readForm();
+
+  // Fill summary fields
+  document.getElementById('rMarket').textContent = p.marketplace || '—';
+  document.getElementById('rChain').textContent = chainFor(p.marketplace);
+  document.getElementById('rArtwork').textContent = (p.artwork || '—').replace(/\s*\(Draft\)\s*/i,'').trim();
+  document.getElementById('rCollection').textContent = p.collection || 'None';
+  document.getElementById('rEdition').textContent = p.edition || '—';
+  document.getElementById('rRoyalties').textContent = (p.royalties !== '' ? `${p.royalties}%` : '—');
+  document.getElementById('rSaleType').textContent = p.saleType || '—';
+  document.getElementById('rPrice').textContent = (p.price && p.price.trim()) ? p.price.trim() : '—';
+
+  const c = computeChecks(p);
+  renderChecks('reviewChecks', c);
+
+  // Header pill + hint
+  const state = document.getElementById('reviewState');
+  const hint = document.getElementById('reviewHint');
+
+  if (c.ready){
+    state.textContent = 'ready';
+    state.style.borderColor = 'rgba(180,207,106,0.45)';
+    state.style.background = 'rgba(180,207,106,0.10)';
+    state.style.color = 'rgba(255,255,255,0.85)';
+    hint.textContent = 'Ready to queue';
+  } else {
+    state.textContent = 'blocked';
+    state.style.borderColor = '';
+    state.style.background = '';
+    state.style.color = '';
+    hint.textContent = 'Fill required fields to validate';
+  }
+}
+
+function toggleReview(forceClose){
+  const wrap = document.querySelector('.review');
+  const body = document.getElementById('reviewBody');
+  const btn = document.getElementById('reviewToggle');
+
+  const isOpen = wrap.classList.contains('open');
+  const willOpen = forceClose ? false : !isOpen;
+
+  wrap.classList.toggle('open', willOpen);
+  body.hidden = !willOpen;
+  btn.setAttribute('aria-expanded', String(willOpen));
+
+  if (willOpen) syncReview();
+}
+
+function validateReview(){
+  const p = readForm();
+  const connected = isMarketConnected(p.marketplace);
+
+  document.getElementById('rFeesMode').textContent = connected ? 'estimate' : 'placeholder';
+
+  if (!connected){
+    document.getElementById('rFeeNetwork').textContent = '—';
+    document.getElementById('rFeeMarket').textContent = '—';
+    document.getElementById('rFeesNote').textContent = 'Connect the selected marketplace to estimate fees.';
+    syncReview();
+    return;
+  }
+
+  // Placeholder estimates (swap later)
+  const chain = chainFor(p.marketplace);
+  document.getElementById('rFeeNetwork').textContent = chain === 'XRPL' ? '~0.000012 XRP' : '~$4–$18 gas';
+  document.getElementById('rFeeMarket').textContent = 'Marketplace fee varies';
+  document.getElementById('rFeesNote').textContent = 'Estimate placeholder. Replace with real quote calls.';
+  syncReview();
+}
+
+// Wire sync to form fields
+['artwork','collection','market','edition','royalties','price','saleType','notes'].forEach(id=>{
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.addEventListener('input', syncReview);
+  el.addEventListener('change', syncReview);
+});
+
+function openMintModal(btn){
+  const item = btn.closest('.qItem');
+  if (!item) return;
+
+  const title = item.dataset.title || item.querySelector('.qTitle')?.textContent?.trim() || '—';
+  const meta  = item.dataset.meta  || item.querySelector('.qMeta')?.textContent?.trim()  || '—';
+
+  document.getElementById('mTitle').textContent = title;
+  document.getElementById('mMeta').textContent = meta;
+
+  document.getElementById('mStatus').textContent = item.dataset.status || '—';
+  document.getElementById('mMarket').textContent = item.dataset.market || '—';
+  document.getElementById('mChain').textContent = item.dataset.chain || '—';
+  document.getElementById('mEdition').textContent = item.dataset.edition || '—';
+  document.getElementById('mRoyalties').textContent = item.dataset.royalties || '—';
+  document.getElementById('mPrice').textContent = item.dataset.price || '—';
+  document.getElementById('mNotes').textContent = item.dataset.notes || '—';
+
+  const modal = document.getElementById('mintModal');
+  modal.classList.add('show');
+  modal.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeMintModal(){
+  const modal = document.getElementById('mintModal');
+  modal.classList.remove('show');
+  modal.setAttribute('aria-hidden','true');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeMintModal();
+});
+
+
   </script>
 </body>
 </html>
